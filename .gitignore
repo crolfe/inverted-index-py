@@ -1,0 +1,11 @@
+env
+
+# indexing
+lexicon
+posting
+doc_lengths
+
+inverted_index.egg-info
+__pycache__
+*.pyc
+.cache
