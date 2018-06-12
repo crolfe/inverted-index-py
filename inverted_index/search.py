@@ -3,6 +3,7 @@ import json
 import operator
 
 from collections import defaultdict, OrderedDict
+from pprint import pprint
 
 from inverted_index.rank import bm25
 
@@ -26,9 +27,7 @@ def process_query(terms, lexicon='lexicon', posting='posting',
             continue
 
         try:
-            print(term)
             entry = lexicon[term]
-            print(entry)
         except KeyError:
             continue
 
@@ -36,7 +35,6 @@ def process_query(terms, lexicon='lexicon', posting='posting',
         posting_entries = _posting_lookup(posting, entry['offset'])
 
         for doc_id, doc_freq in posting_entries:
-            # doc_id, doc_freq = doc
             doc_length = doc_lengths[doc_id]
             score = bm25(int(term_freq), int(doc_freq), doc_length,
                          avg_doc_length, collection_size)
@@ -78,5 +76,8 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    process_query(args.terms, args.lexicon, args.posting, args.stoplist,
-                  args.doc_lengths)
+    scores = process_query(args.terms, args.lexicon, args.posting,
+                           args.stoplist, args.doc_lengths)
+
+    print('Found {} results'.format(len(scores)))
+    pprint(scores)
