@@ -9,3 +9,5 @@ inverted_index.egg-info
 __pycache__
 *.pyc
 .cache
+build
+dist
